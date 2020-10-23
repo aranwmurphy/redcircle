@@ -1,5 +1,5 @@
-# ts-library-starter
-TypeScript library starter template
+# RedCircle
+Implementation of a circular buffer using Redis
 
 ## Available Scripts
 

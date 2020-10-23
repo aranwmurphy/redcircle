@@ -1,7 +1,7 @@
 {
-  "name": "ts-library-starter",
+  "name": "redcircle",
   "version": "1.0.0",
-  "description": "TypeScript library starter template",
+  "description": "Implementation of a circular buffer using Redis",
   "main": "lib/index.js",
   "scripts": {
     "build": "rm -rf lib/* && tsc",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aranwmurphy/ts-library-starter.git"
+    "url": "git+https://github.com/aranwmurphy/redcircle.git"
   },
   "keywords": [
     "template",
@@ -24,9 +24,9 @@
   "license": "MIT",
   "bugs": {
     "mail": "aranwmurphy@gmail.com",
-    "url": "https://github.com/aranwmurphy/ts-library-starter/issues"
+    "url": "https://github.com/aranwmurphy/redcircle/issues"
   },
-  "homepage": "https://github.com/aranwmurphy/ts-library-starter#readme",
+  "homepage": "https://github.com/aranwmurphy/redcircle#readme",
   "engines": {
     "node": ">=10",
     "npm": ">=6"
@@ -36,6 +36,7 @@
   ],
   "devDependencies": {
     "@types/chai": "^4.2.13",
+    "@types/ioredis": "^4.17.6",
     "@types/mocha": "^8.0.3",
     "@types/node": "^14.11.8",
     "chai": "^4.2.0",
@@ -44,5 +45,7 @@
     "tslint": "^6.1.3",
     "typescript": "^4.0.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "ioredis": "^4.19.0"
+  }
 }
