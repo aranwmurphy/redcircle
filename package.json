@@ -15,10 +15,12 @@
     "url": "git+https://github.com/aranwmurphy/redcircle.git"
   },
   "keywords": [
-    "template",
-    "library",
-    "starter",
-    "typescript"
+    "redis",
+    "circular",
+    "buffer",
+    "queue",
+    "list",
+    "ioredis"
   ],
   "author": "Aran Murphy <aranwmurphy@gmail.com> (https://github.com/aranwmurphy)",
   "license": "MIT",
