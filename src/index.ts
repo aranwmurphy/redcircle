@@ -2,7 +2,7 @@ import { Redis } from "ioredis";
 
 export class RedCircle<TElement> {
 
-    public static readonly DEFAULT_CAPACITY = 1000;
+    public static readonly DEFAULT_CAPACITY = 100;
     public static readonly DEFAULT_EXPIRES = 0;
 
     constructor(
@@ -13,68 +13,25 @@ export class RedCircle<TElement> {
     ) {}
 
     public async length(): Promise<number> {
-        let results: [Error | null, any][];
-        if (this.expires === 0) {
-            results = await this.client.multi()
-                .llen(this.name)
-                .exec();
-        } else {
-            results = await this.client.multi()
-                .llen(this.name)
-                .pexpire(this.name, this.expires)
-                .exec()
-        }
+        return this.client.llen(this.name);
+    }
+
+    public async range(start: number, end: number): Promise<TElement[]> {
+        const results = await this.client.lrange(this.name, start, end);
+        const elements: TElement[] = [];
 
         for (const result of results) {
-            if (result[0] !== null) throw result[0];
+            elements.push(JSON.parse(result));
         }
+
+        return elements;
     }
 
     public async elements(): Promise<TElement[]> {
-        let results: [Error | null, any][];
-        if (this.expires === 0) {
-            results = await this.client.multi()
-                .lrange(this.name, start, end)
-                .exec();
-        } else {
-            results = await this.client.multi()
-                .lrange(this.name, start, end)
-                .pexpire(this.name, this.expires)
-                .exec()
-        }
-
-        for (const result of results) {
-            if (result[0] !== null) throw result[0];
-        }
+        return this.range(0, -1);
     }
 
-    public async range(): Promise<TElement[]> {
-        let results: [Error | null, any][];
-        if (this.expires === 0) {
-            results = await this.client.multi()
-                .lrange(this.name, start, end)
-                .exec();
-        } else {
-            results = await this.client.multi()
-                .lrange(this.name, start, end)
-                .pexpire(this.name, this.expires)
-                .exec()
-        }
-
-        for (const result of results) {
-            if (result[0] !== null) throw result[0];
-        }
-    }
-
-    public async *stream(): AsyncGenerator<TElement> {
-        yield (null as TElement);
-    }
-
-    public async append(elements: TElement | TElement[]): Promise<void> {
-        if (!Array.isArray(elements)) {
-            elements = [elements];
-        }
-
+    public async append(...elements: TElement[]): Promise<void> {
         const strings = [];
         for (const element of elements) {
             strings.push(JSON.stringify(element));
@@ -91,11 +48,13 @@ export class RedCircle<TElement> {
                 .lpush(this.name, ...strings)
                 .ltrim(this.name, 0, this.capacity - 1)
                 .pexpire(this.name, this.expires)
-                .exec()
+                .exec();
         }
 
         for (const result of results) {
-            if (result[0] !== null) throw result[0];
+            if (result[0] !== null) {
+                throw result[0];
+            }
         }
     }
 
