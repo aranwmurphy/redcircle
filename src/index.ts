@@ -1,6 +1,6 @@
 import { Redis } from "ioredis";
 
-export default class RedCircle<TElement> {
+export default class RedCircle {
 
     public static readonly DEFAULT_CAPACITY = 100;
     public static readonly DEFAULT_EXPIRES = 0;
@@ -16,9 +16,9 @@ export default class RedCircle<TElement> {
         return this.client.llen(this.name);
     }
 
-    public async slice(start: number, end: number): Promise<TElement[]> {
+    public async slice(start: number, end: number): Promise<any[]> {
         const results = await this.client.lrange(this.name, start, end);
-        const elements: TElement[] = [];
+        const elements: any[] = [];
 
         for (const result of results) {
             elements.push(JSON.parse(result));
@@ -27,11 +27,11 @@ export default class RedCircle<TElement> {
         return elements;
     }
 
-    public async values(): Promise<TElement[]> {
+    public async values(): Promise<any[]> {
         return this.slice(0, -1);
     }
 
-    public async push(...elements: TElement[]): Promise<void> {
+    public async push(...elements: any[]): Promise<void> {
         const strings = [];
         for (const element of elements) {
             strings.push(JSON.stringify(element));

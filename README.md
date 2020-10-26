@@ -1,5 +1,5 @@
 # RedCircle
-Implementation of an push-only, capped circular buffer using Redis
+Implementation of an append-only, capped circular buffer using Redis
 
 ## Available Scripts
 
@@ -57,7 +57,7 @@ async function main() {
     console.log(elements);
     // ['9', '8', '7', '6', '5', '4', '3', '2', '1', '0']
 
-    // Get a slice of elements in the buffer
+    // Get a range of elements in the buffer
     const slice = await rcircle.slice(0, 2);
     console.log(slice);
     // ['9', '8', '7']
@@ -84,7 +84,7 @@ const CAPACITY = 1000;
 const EXPIRES = 60000;
 
 // Instantiate RedCircle
-const rcircle = new RedCircle<string>(client, "local:elements", CAPACITY, EXPIRES);
+const rcircle = new RedCircle(client, "local:elements", CAPACITY, EXPIRES);
 
 async function main(): Promise<void> {
     // Clear the list
@@ -108,7 +108,7 @@ async function main(): Promise<void> {
     console.log(elements);
     // ['9', '8', '7', '6', '5', '4', '3', '2', '1', '0']
 
-    // Get a slice of elements in the buffer
+    // Get a range of elements in the buffer
     const slice = await rcircle.slice(0, 2);
     console.log(slice);
     // ['9', '8', '7']
