@@ -1,7 +1,7 @@
 {
   "name": "redcircle",
   "version": "1.0.0",
-  "description": "Implementation of a circular buffer using Redis",
+  "description": "Implementation of an append-only, capped circular buffer using Redis",
   "main": "lib/index.js",
   "scripts": {
     "build": "rm -rf lib/* && tsc",

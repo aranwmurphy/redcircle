@@ -1,5 +1,5 @@
 # RedCircle
-Implementation of a circular buffer using Redis
+Implementation of an append-only, capped circular buffer using Redis
 
 ## Available Scripts
 
