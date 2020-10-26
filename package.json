@@ -23,7 +23,8 @@
     "ioredis",
     "append-only",
     "capped",
-    "cache"
+    "cache",
+    "lifo"
   ],
   "author": "Aran Murphy <aranwmurphy@gmail.com> (https://github.com/aranwmurphy)",
   "license": "MIT",
