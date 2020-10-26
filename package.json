@@ -20,7 +20,10 @@
     "buffer",
     "queue",
     "list",
-    "ioredis"
+    "ioredis",
+    "append-only",
+    "capped",
+    "cache"
   ],
   "author": "Aran Murphy <aranwmurphy@gmail.com> (https://github.com/aranwmurphy)",
   "license": "MIT",
