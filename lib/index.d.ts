@@ -7,10 +7,10 @@ export default class RedCircle<TElement> {
     static readonly DEFAULT_CAPACITY = 100;
     static readonly DEFAULT_EXPIRES = 0;
     constructor(client: Redis, name: string, capacity?: number, expires?: number);
-    length(): Promise<number>;
-    range(start: number, end: number): Promise<TElement[]>;
-    elements(): Promise<TElement[]>;
-    append(...elements: TElement[]): Promise<void>;
+    size(): Promise<number>;
+    slice(start: number, end: number): Promise<TElement[]>;
+    values(): Promise<TElement[]>;
+    push(...elements: TElement[]): Promise<void>;
     touch(): Promise<void>;
     clear(): Promise<void>;
 }

@@ -53,13 +53,13 @@ async function main() {
     // 10
     
     // Get all elements in the buffer
-    const elements = await rcircle.elements();
+    const elements = await rcircle.values();
     console.log(elements);
     // ['9', '8', '7', '6', '5', '4', '3', '2', '1', '0']
 
-    // Get a range of elements in the buffer
-    const range = await rcirlce.range(0, 2);
-    console.log(range);
+    // Get a slice of elements in the buffer
+    const slice = await rcircle.slice(0, 2);
+    console.log(slice);
     // ['9', '8', '7']
 
     // Extend the Time to Live (TTL) if applicable
@@ -104,13 +104,13 @@ async function main(): Promise<void> {
     // 10
     
     // Get all elements in the buffer
-    const elements = await rcircle.elements();
+    const elements = await rcircle.values();
     console.log(elements);
     // ['9', '8', '7', '6', '5', '4', '3', '2', '1', '0']
 
-    // Get a range of elements in the buffer
-    const range = await rcirlce.range(0, 2);
-    console.log(range);
+    // Get a slice of elements in the buffer
+    const slice = await rcircle.slice(0, 2);
+    console.log(slice);
     // ['9', '8', '7']
 
     // Extend the Time to Live (TTL) if applicable
