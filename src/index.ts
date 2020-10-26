@@ -1,6 +1,6 @@
 import { Redis } from "ioredis";
 
-export class RedCircle<TElement> {
+export default class RedCircle<TElement> {
 
     public static readonly DEFAULT_CAPACITY = 100;
     public static readonly DEFAULT_EXPIRES = 0;

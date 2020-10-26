@@ -1,13 +1,13 @@
 // tslint:disable-next-line: no-implicit-dependencies
 import { expect } from "chai";
 import Redis = require("ioredis");
-import { RedCircle } from "../src";
+import RedCircle from "../src";
 
 const client = new Redis();
 
 describe("RedCircle", () => {
     describe("#length()", () => {
-        it("should return 0 for an empty list", async () => {
+        it("should return 0 for an empty buffer", async () => {
             const rcircle = new RedCircle<string>(client, "test:length1");
             await rcircle.clear();
             const length = await rcircle.length();
@@ -15,7 +15,7 @@ describe("RedCircle", () => {
             await rcircle.clear();
         });
 
-        it("should return the correct list size", async () => {
+        it("should return the correct buffer size", async () => {
             const rcircle = new RedCircle<string>(client, "test:length2");
             await rcircle.clear();
             await rcircle.append("foo");
@@ -35,7 +35,7 @@ describe("RedCircle", () => {
             await rcircle.clear();
         });
 
-        it("should return an empty list if the range does not exist", async () => {
+        it("should return an empty array if the range does not exist", async () => {
             const rcircle = new RedCircle<string>(client, "test:range2");
             await rcircle.clear();
             const range = await rcircle.range(0, 2);
@@ -43,7 +43,7 @@ describe("RedCircle", () => {
             await rcircle.clear();
         });
 
-        it("should return a partial list if one of the indexes is out-of-bounds", async () => {
+        it("should return a partial array if one of the indexes is out-of-bounds", async () => {
             const rcircle = new RedCircle<string>(client, "test:range3");
             await rcircle.clear();
             await rcircle.append("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
@@ -54,7 +54,7 @@ describe("RedCircle", () => {
     });
 
     describe("#elements()", () => {
-        it("should return an empty array for an empty list", async () => {
+        it("should return an empty array for an empty buffer", async () => {
             const rcircle = new RedCircle<string>(client, "test:elements1");
             await rcircle.clear();
             const range = await rcircle.elements();
@@ -62,7 +62,7 @@ describe("RedCircle", () => {
             await rcircle.clear();
         });
 
-        it("should return all elements present in the list", async () => {
+        it("should return all elements present in the buffer", async () => {
             const rcircle = new RedCircle<string>(client, "test:elements2");
             await rcircle.clear();
             await rcircle.append("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
@@ -73,7 +73,7 @@ describe("RedCircle", () => {
     });
 
     describe("#append()", () => {
-        it("should add the specified elements to the list", async () => {
+        it("should add the specified elements to the buffer", async () => {
             const rcircle = new RedCircle<string>(client, "test:append1");
             await rcircle.clear();
             await rcircle.append("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
@@ -93,7 +93,7 @@ describe("RedCircle", () => {
     });
 
     describe("#touch()", () => {
-        it("should extend the expiration date of the list if expires is not 0", async () => {
+        it("should extend the expiration date of the buffer if expires is not 0", async () => {
             const rcircle = new RedCircle<string>(client, "test:touch1", 20, 10000);
             await rcircle.clear();
             await rcircle.append("0");
@@ -107,7 +107,7 @@ describe("RedCircle", () => {
             await rcircle.clear();
         });
 
-        it("should not extend the expiration date of the list if expires is 0", async () => {
+        it("should not extend the expiration date of the buffer if expires is 0", async () => {
             const rcircle = new RedCircle<string>(client, "test:touch2", 20, 0);
             await rcircle.clear();
             await rcircle.append("0");
@@ -119,7 +119,7 @@ describe("RedCircle", () => {
     });
 
     describe("#clear()", () => {
-        it("should delete/remove all elements in the list", async () => {
+        it("should delete/remove all elements in the buffer", async () => {
             const rcircle = new RedCircle<string>(client, "test:clear1");
             await rcircle.clear();
             const length = await rcircle.length();
