@@ -1,5 +1,5 @@
 import { Redis } from "ioredis";
-export default class RedCircle<TElement> {
+export default class RedCircle {
     readonly client: Redis;
     readonly name: string;
     readonly capacity: number;
@@ -8,9 +8,9 @@ export default class RedCircle<TElement> {
     static readonly DEFAULT_EXPIRES = 0;
     constructor(client: Redis, name: string, capacity?: number, expires?: number);
     size(): Promise<number>;
-    slice(start: number, end: number): Promise<TElement[]>;
-    values(): Promise<TElement[]>;
-    push(...elements: TElement[]): Promise<void>;
+    slice(start: number, end: number): Promise<any[]>;
+    values(): Promise<any[]>;
+    push(...elements: any[]): Promise<void>;
     touch(): Promise<void>;
     clear(): Promise<void>;
 }
