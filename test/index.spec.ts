@@ -6,88 +6,88 @@ import RedCircle from "../src";
 const client = new Redis();
 
 describe("RedCircle", () => {
-    describe("#length()", () => {
+    describe("#size()", () => {
         it("should return 0 for an empty buffer", async () => {
-            const rcircle = new RedCircle<string>(client, "test:length1");
+            const rcircle = new RedCircle<string>(client, "test:size1");
             await rcircle.clear();
-            const length = await rcircle.length();
-            expect(length).to.equal(0);
+            const size = await rcircle.size();
+            expect(size).to.equal(0);
             await rcircle.clear();
         });
 
         it("should return the correct buffer size", async () => {
-            const rcircle = new RedCircle<string>(client, "test:length2");
+            const rcircle = new RedCircle<string>(client, "test:size2");
             await rcircle.clear();
-            await rcircle.append("foo");
-            const length = await rcircle.length();
-            expect(length).to.equal(1);
+            await rcircle.push("foo");
+            const size = await rcircle.size();
+            expect(size).to.equal(1);
             await rcircle.clear();
         });
     });
 
-    describe("#range()", () => {
-        it("should return the elements between a specified range", async () => {
-            const rcircle = new RedCircle<string>(client, "test:range1");
+    describe("#slice()", () => {
+        it("should return the values between a specified range", async () => {
+            const rcircle = new RedCircle<string>(client, "test:slice1");
             await rcircle.clear();
-            await rcircle.append("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
-            const range = await rcircle.range(0, 2);
-            expect(range).to.deep.equal(["9", "8", "7"]);
+            await rcircle.push("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
+            const slice = await rcircle.slice(0, 2);
+            expect(slice).to.deep.equal(["9", "8", "7"]);
             await rcircle.clear();
         });
 
         it("should return an empty array if the range does not exist", async () => {
-            const rcircle = new RedCircle<string>(client, "test:range2");
+            const rcircle = new RedCircle<string>(client, "test:slice2");
             await rcircle.clear();
-            const range = await rcircle.range(0, 2);
-            expect(range).to.deep.equal([]);
+            const slice = await rcircle.slice(0, 2);
+            expect(slice).to.deep.equal([]);
             await rcircle.clear();
         });
 
         it("should return a partial array if one of the indexes is out-of-bounds", async () => {
-            const rcircle = new RedCircle<string>(client, "test:range3");
+            const rcircle = new RedCircle<string>(client, "test:slice3");
             await rcircle.clear();
-            await rcircle.append("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
-            const range = await rcircle.range(8, 12);
-            expect(range).to.deep.equal(["1", "0"]);
+            await rcircle.push("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
+            const slice = await rcircle.slice(8, 12);
+            expect(slice).to.deep.equal(["1", "0"]);
             await rcircle.clear();
         });
     });
 
-    describe("#elements()", () => {
+    describe("#values()", () => {
         it("should return an empty array for an empty buffer", async () => {
-            const rcircle = new RedCircle<string>(client, "test:elements1");
+            const rcircle = new RedCircle<string>(client, "test:values1");
             await rcircle.clear();
-            const range = await rcircle.elements();
-            expect(range).to.deep.equal([]);
+            const slice = await rcircle.values();
+            expect(slice).to.deep.equal([]);
             await rcircle.clear();
         });
 
-        it("should return all elements present in the buffer", async () => {
-            const rcircle = new RedCircle<string>(client, "test:elements2");
+        it("should return all values present in the buffer", async () => {
+            const rcircle = new RedCircle<string>(client, "test:values2");
             await rcircle.clear();
-            await rcircle.append("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
-            const range = await rcircle.elements();
-            expect(range).to.deep.equal(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].reverse());
+            await rcircle.push("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
+            const slice = await rcircle.values();
+            expect(slice).to.deep.equal(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].reverse());
             await rcircle.clear();
         });
     });
 
-    describe("#append()", () => {
-        it("should add the specified elements to the buffer", async () => {
-            const rcircle = new RedCircle<string>(client, "test:append1");
+    describe("#push()", () => {
+        it("should add the specified values to the buffer", async () => {
+            const rcircle = new RedCircle<string>(client, "test:push1");
             await rcircle.clear();
-            await rcircle.append("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
-            const range = await rcircle.elements();
-            expect(range).to.deep.equal(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].reverse());
+            await rcircle.push("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
+            const slice = await rcircle.values();
+            expect(slice).to.deep.equal(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].reverse());
             await rcircle.clear();
         });
 
         it("should not exceed the specified capacity", async () => {
-            const rcircle = new RedCircle<string>(client, "test:append2", 5);
+            const rcircle = new RedCircle<string>(client, "test:push2", 5);
             await rcircle.clear();
-            await rcircle.append("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
-            const range = await rcircle.elements();
-            expect(range).to.deep.equal(["5", "6", "7", "8", "9"].reverse());
+            await rcircle.push("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
+            const slice = await rcircle.values();
+            expect(slice).to.deep.equal(["5", "6", "7", "8", "9"].reverse());
             await rcircle.clear();
         });
     });
@@ -96,7 +96,7 @@ describe("RedCircle", () => {
         it("should extend the expiration date of the buffer if expires is not 0", async () => {
             const rcircle = new RedCircle<string>(client, "test:touch1", 20, 10000);
             await rcircle.clear();
-            await rcircle.append("0");
+            await rcircle.push("0");
             for (let i = 0; i < 100000; i++) {
                 i = i;
             }
@@ -110,7 +110,7 @@ describe("RedCircle", () => {
         it("should not extend the expiration date of the buffer if expires is 0", async () => {
             const rcircle = new RedCircle<string>(client, "test:touch2", 20, 0);
             await rcircle.clear();
-            await rcircle.append("0");
+            await rcircle.push("0");
             await rcircle.touch();
             const expires1 = await rcircle.client.pttl(rcircle.name);
             expect(expires1).to.equal(-1);
@@ -119,11 +119,11 @@ describe("RedCircle", () => {
     });
 
     describe("#clear()", () => {
-        it("should delete/remove all elements in the buffer", async () => {
+        it("should delete/remove all values in the buffer", async () => {
             const rcircle = new RedCircle<string>(client, "test:clear1");
             await rcircle.clear();
-            const length = await rcircle.length();
-            expect(length).to.equal(0);
+            const size = await rcircle.size();
+            expect(size).to.equal(0);
             await rcircle.clear();
         });
     });

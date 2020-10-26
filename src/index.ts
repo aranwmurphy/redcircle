@@ -12,11 +12,11 @@ export default class RedCircle<TElement> {
         public readonly expires: number = RedCircle.DEFAULT_EXPIRES,
     ) {}
 
-    public async length(): Promise<number> {
+    public async size(): Promise<number> {
         return this.client.llen(this.name);
     }
 
-    public async range(start: number, end: number): Promise<TElement[]> {
+    public async slice(start: number, end: number): Promise<TElement[]> {
         const results = await this.client.lrange(this.name, start, end);
         const elements: TElement[] = [];
 
@@ -27,11 +27,11 @@ export default class RedCircle<TElement> {
         return elements;
     }
 
-    public async elements(): Promise<TElement[]> {
-        return this.range(0, -1);
+    public async values(): Promise<TElement[]> {
+        return this.slice(0, -1);
     }
 
-    public async append(...elements: TElement[]): Promise<void> {
+    public async push(...elements: TElement[]): Promise<void> {
         const strings = [];
         for (const element of elements) {
             strings.push(JSON.stringify(element));

@@ -1,5 +1,5 @@
 # RedCircle
-Implementation of an append-only, capped circular buffer using Redis
+Implementation of an push-only, capped circular buffer using Redis
 
 ## Available Scripts
 
@@ -39,17 +39,17 @@ async function main() {
     // Clear the list
     await rcircle.clear();
 
-    // Get the length of the buffer
-    const length = await rcircle.length();
-    console.log(length);
+    // Get the size of the buffer
+    const size = await rcircle.size();
+    console.log(size);
     // 0
 
     // Append elements to the buffer
-    await rcircle.append('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+    await rcircle.push('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
     
-    // Get the length of the buffer
-    const length = await rcircle.length();
-    console.log(length);
+    // Get the size of the buffer
+    const size = await rcircle.size();
+    console.log(size);
     // 10
     
     // Get all elements in the buffer
@@ -90,17 +90,17 @@ async function main(): Promise<void> {
     // Clear the list
     await rcircle.clear();
 
-    // Get the length of the buffer
-    const length = await rcircle.length();
-    console.log(length);
+    // Get the size of the buffer
+    const size = await rcircle.size();
+    console.log(size);
     // 0
 
     // Append elements to the buffer
-    await rcircle.append("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
+    await rcircle.push("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
     
-    // Get the length of the buffer
-    const length = await rcircle.length();
-    console.log(length);
+    // Get the size of the buffer
+    const size = await rcircle.size();
+    console.log(size);
     // 10
     
     // Get all elements in the buffer
